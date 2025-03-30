@@ -37,3 +37,6 @@ marp: true
 课程目录
   10.  [大语言模型解析 VII: LLM save/load](lecture10.html)
   11.  [大语言模型解析 VII: LLM 推理, 解码策略, KVCache](lecture11.html)
+  12.  [大语言模型推理技术: RAG](lecture12.html)
+  13.  [大语言模型推理技术: RAG进阶](lecture13.html)
+  14.  [大语言模型进阶: Megatron中的并行化技术介绍](lecture14.html)
