@@ -2,21 +2,22 @@ MARP := marp
 PREFIX := docs
 
 OBJECTS := $(PREFIX)/index.html 
-OBJECTS += $(PREFIX)/lecture1.html 
-OBJECTS += $(PREFIX)/lecture2.html 
-OBJECTS += $(PREFIX)/lecture3.html
-OBJECTS += $(PREFIX)/lecture4.html
-OBJECTS += $(PREFIX)/lecture5.html
-OBJECTS += $(PREFIX)/lecture6.html
-OBJECTS += $(PREFIX)/lecture7.html
-OBJECTS += $(PREFIX)/lecture8.html
-OBJECTS += $(PREFIX)/lecture9.html
-OBJECTS += $(PREFIX)/lecture10.html
-OBJECTS += $(PREFIX)/lecture11.html
-OBJECTS += $(PREFIX)/lecture12.html
-OBJECTS += $(PREFIX)/lecture13.html
-OBJECTS += $(PREFIX)/lecture14.html
-OBJECTS += $(PREFIX)/lecture_merge.html
+OBJECTS := $(PREFIX)/2025/lecture1.html 
+# OBJECTS += $(PREFIX)/lecture1.html 
+# OBJECTS += $(PREFIX)/lecture2.html 
+# OBJECTS += $(PREFIX)/lecture3.html
+# OBJECTS += $(PREFIX)/lecture4.html
+# OBJECTS += $(PREFIX)/lecture5.html
+# OBJECTS += $(PREFIX)/lecture6.html
+# OBJECTS += $(PREFIX)/lecture7.html
+# OBJECTS += $(PREFIX)/lecture8.html
+# OBJECTS += $(PREFIX)/lecture9.html
+# OBJECTS += $(PREFIX)/lecture10.html
+# OBJECTS += $(PREFIX)/lecture11.html
+# OBJECTS += $(PREFIX)/lecture12.html
+# OBJECTS += $(PREFIX)/lecture13.html
+# OBJECTS += $(PREFIX)/lecture14.html
+# OBJECTS += $(PREFIX)/lecture_merge.html
 # OBJECTS += $(PREFIX)/14.html
 # OBJECTS += $(PREFIX)/15.html
 # OBJECTS += $(PREFIX)/16.html
@@ -31,3 +32,4 @@ $(PREFIX)/%.html: %.md
 
 clean:
 	rm -f $(PREFIX)/*.html
+	rm -f $(PREFIX)/2025/*.html

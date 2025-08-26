@@ -22,9 +22,9 @@ a[href='red'] {
 
 
 
-![bg left:45% 80%](images/course.webp)
+![bg left:45% 80%](../images/course.webp)
 
-# **LLM智能应用开发**
+# **大语言模型基础：从零到一实现之路**
 
 第1讲: 课程简介
 
@@ -32,65 +32,53 @@ a[href='red'] {
 
 ---
 
-# 教师信息
+# 课程团队信息
 
-讲师: 徐经纬
-
+主讲: 徐经纬
 办公室: 计算机学院1022
-
 邮箱: jingweix@nju.edu.cn
 
-课程主页: TBD
+课程联合创始人: 黄云鹏
+
+助教团队: 赵世驹, 梁明宇, 卜韬, 王乾刚, 徐鼎坤
+
+课程主页: https://njudeepengine.github.io/llm-course-lecture/
+作业主页: https://njudeepengine.github.io/LLM-Blog/
 
 ---
 
 # 课程基本信息
 
-![bg right:50% 80%](images/l1/qq.jpg)
+![bg right:40% 80%](../images/2025/l1/qq.png)
 
-- 课程大纲
-- 参考资料
-- QQ群: 208283743
+- QQ群: 1033682290
 - 分数组成
-  * 平时编程作业 60%
-  * 期末编程大作业 40%
+  * 从零到一之路：5次编程作业 80%
+  * **启动：大作业 20%
 
-* 注: 对GPU资源有一定要求
-
----
-
-
-
-# 课程前身: iOS智能应用开发
-- Swift程序设计语言
-- iOS App开发技术
-- iOS 人工智能（机器学习）技术应用
-  - 图像类应用
-  - 文本类应用
+* 注: 作业过程可能对GPU资源有一定要求（感谢AMD的鼎力支持）
 
 ---
 
-# 课程大纲: LLM应用架构图
+# 课程大纲: (理想的)LLM应用架构图
 
 
-![w:800 center](images/l1/syllabus.svg)
+![w:800 center](../images/2025/l1/syllabus.svg)
 
 ---
 
-# 课程大纲: 授课脉络
+# 课程大纲: (实际的)授课脉络
 
-![w:700 center](images/l1/syllabus_1.jpg)
+![w:700 center](../images/2025/l1/syllabus_1.jpg)
 
 ---
 
 # 深度学习基础
 
-* 何为深度(机器)学习模型
-* 如何开发一个模型
-  * 数据、模型、训练算法
-  * PyTorch基础*
-* 相关概念光速入门
-  * 机器学习概念、反向传播
+* 何为深度学习模型
+  * PyTorch基础
+* 相关概念光速讲解
+  * 比如: 反向传播(A0 Onboarding)
 
 ---
 
@@ -101,75 +89,87 @@ a[href='red'] {
 * 模型如何认识单词: 问就是编码
   * one-hot编码, word2vec, tokenization
 * 模型如何理解语言: Attention is All You Need
-  * attention, softmax, positional embedding, ... 
 
 ---
 
 # LLM经典架构解析
 
-* 了解基础组件
-  * Transformer, 残差(residual), layernorm
-* 一起搭LLM积木
-  * Encoder-decoder, decoder only
-* 代码案例: 典型LLM架构代码解析
-  * LlaMA家族
+* 从零到一构建之路：以LlaMA model为基础参照
+  * 了解和实现基础组件
+    * 残差(residual), layernorm, attention, softmax, positional embedding, ... 
+  * 基于你们的组件，一起搭LLM积木
+    * decoder-only LLM
+
+<div style="display:contents;" data-marpit-fragment>
+考虑好了，全是狠活...
+</div>
 
 ---
 
-# LLM经典架构解析(续集)
+# 学习过程中你还会了解到...
 
-“虚的讲完了，让我们实际一点”
-* LLM如何在计算机中被创建
-* 运行设备：CPU，GPU，TPU...
-* 精度: fp32, fp16, bf16, 混合精度...
-* 分布式运行: 分布式数据并行DDP, ZeRO, FSDP, Deepspeed...
-  
+* 通过构建LLM的过程了解
+  * LLM如何在计算机中被创建，代码和模型参数的关系
+  * 运行设备之间的关系：CPU，GPU
+  * 浮点数精度二三事: fp32, fp16, bf16, fp8, 混合精度...
+  * 高阶技术
+    * FlashAttention基本原理
+    * 分布式运行: 分布式并行化(数据/张量/流水线/序列并行)
+    
 ---
 
-# LLM训练和推理
+# 学习过程中你还会了解到...
 
 * LLM预训练和微调训练
   * 训练概念介绍
   * 数据集和数据加载过程构建
   * 微调流程构建(含对齐(Alignment))
-   * SFT: SFT, PEFT, LoRA
+    * SFT: SFT, PEFT, LoRA
     * RL*: RLHF, PPO, DPO
 * 如何推理模型
-  * KV-cache, 量化(Quantization)
+  * KV-cache, 解码策略(Decoding)
 
 ---
 
-# LLM应用
+# LLM应用技术讲解
 
 应用技术
 * 检索增强生成(RAG)
 * LLMs as Agents
+  * MCP
   
-应用场景
-* 聊天, 多模态, 数学, 代码生成
-
 ---
 
-# 这是一门理论基础和实践相结合的课程
+# 综上所述，这门课是...
 
-* 实践体现在无处不在的手撸代码过程
+**大预言模型理论和实践基础结合的课程**
+
+<div style="display:contents;" data-marpit-fragment>
+
+**a.k.a. 有着5分PA实验量级的2分选修课，<span style="color:red;">慎选</span>**
+</div>
+
+* 理论体现在从原理上知道大预言模型无微不至的细节
+* 实践体现在无处不在的手搓代码和**痛苦debug**的过程
 * 你会了解和学习:
   * PyTorch
   * Transformers and PEFT (from Huggingface)
   * 以及其他流行开源框架
 
-<div style="display:contents;" data-marpit-fragment>
-例如: 以下代码是如何执行的？
+
+---
+
+
+# 例如: 以下代码是如何执行的？
+
 
 ```python
 model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 ```
 
-</div>
-
 ---
 
-![bg](images/l1/chatgpt.jpg?text=ChatGPT)
+![bg](../images/2025/l1/chatgpt.jpg)
 
 ---
 
@@ -196,8 +196,8 @@ model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 * 自然语言
   * 人类使用的语言，如汉语、英语、西班牙语、代码等 -> 文本符号
 * 自然语言处理的定义
- * “自然语言处理（NLP）是语言学、计算机科学和人工智能的跨学科子领域，关注计算机和人类语言之间的交互，特别是如何编程使计算机能够处理和分析大量的自然语言数据。其目标是使计算机能够“理解”文档的内容，包括其中的语言背景细微差别。然后，这项技术可以准确提取文档中包含的信息和见解，以及对文档本身进行分类和组织。” *From WikiPedia, ChatGPT翻译*
- * <span style="color:red;">自然语言理解，自然语言生成</span>
+  * “自然语言处理（NLP）是语言学、计算机科学和人工智能的跨学科子领域，关注计算机和人类语言之间的交互，特别是如何编程使计算机能够处理和分析大量的自然语言数据。其目标是使计算机能够“理解”文档的内容，包括其中的语言背景细微差别。然后，这项技术可以准确提取文档中包含的信息和见解，以及对文档本身进行分类和组织。” *From WikiPedia, ChatGPT翻译*
+<span style="color:red;">自然语言理解，自然语言生成</span>
 
 
 ---
@@ -222,8 +222,8 @@ model.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
 
 句子由任意长度的字符串组成
 
-- 句子a = 今天我来到了仙II-212。
-- 句子b = 今天仙II-212我来到了。
+- 句子a = 今天我来到了仙I-102。
+- 句子b = 今天仙I-102我来到了。
 * 用概率衡量句子的“好”: $\mathrm{p}(a) > \mathrm{p}(b)$
 *自然语言处理(NLP)模型：估计出的(相对准确的)概率分布
 
@@ -254,7 +254,7 @@ $\mathrm{p}$(。|今天我上智能应用开发)
 
 # LLM的前寒武纪时期
 
-![bg right:43% 100%](images/l1/transformer.png)
+![bg right:40% 130%](../images/2025/l1/transformer.png)
 
 * 2017年6月之前
   * RNN系列
@@ -263,6 +263,7 @@ $\mathrm{p}$(。|今天我上智能应用开发)
   * Transformer界的剑宗气宗之争
     * Encoder-decoder派: BERT
     * Decoder-only派: GPT系列
+      * Generative Pre-trained Transformer (GPT)
 
 ---
 
@@ -289,8 +290,8 @@ img[alt~="bottom-right"] {
 <!-- ![top-right](images/gpt.png) -->
 
 <p align="center">
-  <img width="380" height="400" src="images/l1/gpt.png">
-  <img width="450" height="400" src="images/l1/bert.png">
+  <img width="380" height="400" src="../images/2025/l1/gpt.png">
+  <img width="450" height="400" src="../images/2025/l1/bert.png">
 </p>
 
 <!-- ![w:400 h:400](images/gpt.png)  ![w:320 h:320](images/bert.png) -->
@@ -300,26 +301,26 @@ img[alt~="bottom-right"] {
 # LLM的寒武纪大爆发
 
 - OpenAI发布ChatGPT
-  * GPT系列: GPT-3.5, GPT-4, GPT-4 Turbo, GPT4o...
+  * GPT系列: GPT-3.5, GPT-4, GPT-4o, GPT-5...
 * 其他公司
-  * 国外: LlaMA家族, Gemini, Mistral, Mixtral, Claude, ...
-  * 国内: Deepseek, 文心一言, GLM(智谱清言), Moonshot(月之暗面), 通义千问, abab(MiniMax), ...
+  * 国外: LlaMA家族(暂时废了), Gemini, Mixtral, Claude, Grok...
+  * 国内: Deepseek, qwen, 文心一言, GLM(智谱清言), Moonshot(月之暗面), abab(MiniMax), ...
 
 ---
 
-![bg 60%](images/l1/llm_tree.png)
+![bg 60%](../images/2025/l1/llm_tree.png)
 <!-- <p align="center">
   <img width="500" height="500" src="images/llm_tree.png">
 </p> -->
 ---
 
-![bg 90%](images/l1/llama_family.png)
+![bg 90%](../images/2025/l1/llama_family.png)
 <!-- <p align="center">
   <img width="500" height="500" src="images/llm_tree.png">
 </p> -->
 ---
 
-# 开发LLM少不了开源社区的支撑
+# LLM的研究/开发少不了开源社区的支撑
 
 * 深度学习框架: PyTorch
 * 模型社区: Huggingface
@@ -329,14 +330,15 @@ img[alt~="bottom-right"] {
 
 ---
 
-# Talk is cheap. Show me the code.
+# LLM的运行实机演示
 
 准备:
 
-* Python 3.8+
-* 设备: 最好有N卡，实在没有也没关系，内存大一点
+* Python 3.10+
+* 设备: 最好有N卡, 实在没有也没关系, 内存大一点也行
+  * ROCm, 此处特别鸣谢: AMD
 * 虚拟环境: [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
-* 环境配置: PyTorch, Transformers, PEFT, triton, ...
+* 环境配置: PyTorch, Transformers, tokenizers, triton(CUDA环境), ...
   * 绝大部分可通过pip或conda安装
 
 <!-- ![bg](https://fakeimg.pl/800x600/02669d/fff/?text=Show+me+the+code) -->
