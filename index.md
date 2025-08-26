@@ -21,7 +21,7 @@ marp: true
 ---
 
 课程目录
-  1. [课程简介](lecture1.html)
+  1. [课程简介](2025/lecture1.html)
   2. [深度学习基础 I](lecture2.html)
   3. [深度学习基础 II](lecture3.html)
   4. [大语言模型解析 I: Tokenizer, Positional Embedding](lecture4.html)
