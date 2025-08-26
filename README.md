@@ -4,7 +4,7 @@
 [![Year](https://img.shields.io/badge/Year-2024%2F2025-green.svg)]()
 [![Language](https://img.shields.io/badge/Language-Chinese%2FEnglish-yellow.svg)]()
 
-> 一门理论与实践并重的大语言模型课程，带你从零开始理解和实现LLM的各个组件
+> 一门理论与实践并重的大语言模型课程，带你从零开始理解和实现LLM的各个组件（内容由Cursor生成hhh）
 
 ## 📚 课程简介
 
