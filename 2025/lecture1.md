@@ -342,3 +342,15 @@ img[alt~="bottom-right"] {
   * 绝大部分可通过pip或conda安装
 
 <!-- ![bg](https://fakeimg.pl/800x600/02669d/fff/?text=Show+me+the+code) -->
+
+
+
+---
+
+# 下周内容预告
+
+从矩阵/张量运算的视角理解模型的底层运行逻辑
+* 前向传播(Forward)
+* 反向传播(Backward)
+* PyTorch计算图
+* A0作业发布
