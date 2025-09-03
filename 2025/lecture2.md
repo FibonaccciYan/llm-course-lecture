@@ -59,18 +59,17 @@ a[href='red'] {
 # 这是何物第三关
 
 
+<div style="display:contents;" data-marpit-fragment>
+我可不想被发律师函（手动狗头）
+</div>
 
-<p align="center">
-  <img width="380" height="400" src="../images/2025/l2/man_icon.jpg">
-  <img width="200" height="400" src="../images/2025/l2/woman_icon.jpg">
-</p>
 
 ---
 
 
 # 理解世界的方式
 
-* 如何理解世界: 通过外延观察=>自动构建内涵
+* 人如何理解世界: 通过外延观察=>自动构建内涵
   
 * 内涵: 一个概念的内涵是指它的“内容”或“定义”，即该概念所包含的性质、特征或条件
   * “人”: 有理性、社会性和自我意识的生物
@@ -81,10 +80,11 @@ a[href='red'] {
 
 # 模型学习的核心
 
-如何理解世界: 通过外延观察=>自动构建内涵
+模型如何理解世界: 通过外延观察=>自动构建内涵
+
+<div style="display:contents;" data-marpit-fragment>
 
 那如何把上面的概念落到实处呢？
-<div style="display:contents;" data-marpit-fragment>
 
 将世界“特征化”，基于特征化后的向量，通过函数计算完成具体的任务
 $Y=f(X)=XW+b$
@@ -100,15 +100,15 @@ $Y=f(X)=XW+b$
 
 # 深度学习的特点
 
-* 表示学习(representation learning)
+表示学习(representation learning)
 
-![w:900 center](../images/2025/l2/semanticrepresentation.png)
+![w:1100 center](../images/2025/l2/semanticrepresentation.png)
 
 ---
 
 # 深度学习模型
 
-![bg 60%](../images/2025/l2/deep-learning-model-arch.png)
+![bg 65%](../images/2025/l2/deep-learning-model-arch.png)
 
 
 
@@ -129,12 +129,12 @@ $Y=f(X)=XW+b$
 
 ---
 
-# 深度学习模型的一层
+# 深度学习模型的线性层
 
 $Y=f(X)=XW+b$
-* $x$和$y$: 特征表示
-  * $x$: 当前层输入/前一层输出
-  * $y$: 当前层输出/后一层输入
+* $X$和$Y$: 特征表示
+  * $X$: 当前层输入/前一层输出
+  * $Y$: 当前层输出/后一层输入
 * $W,b$: 当前层参数
     * 表示空间变换函数
 
@@ -150,24 +150,93 @@ $Y=f(X)=XW+b$
 函数$f(X)$：函数将表示在d维空间中的样本变换到e维的空间中
 输出$Y$：$f(X)$的输出，b个样本，每个样本表示在一个e维的空间中
 
+
+![w:900 center](../images/2025/l2/linear.png)
+
+
+
 ---
 
 # 空间变换的具体实现
 
 理论上：运用线性代数中的矩阵乘法
-工程上：向量化(vectorization)，其实是一种批量的、并行的思想实现计算过程
+
+![w:900 center](../images/2025/l2/matmul_elem.png)
 
 ---
 
-# PyTorch手搓Y=XW+b
+## 矩阵乘法的复杂度分析
 
-* 矩阵乘法 (Matrix multiplication)
-  * @
-  * torch.matmul, tensor.matmul
-* 元素乘法 (element-wise multiplication)
-  * \*
-  * torch.mul, tensor.mul
+- 计算 $Y = XW$ 时，每个元素 $y_{ij}$ 是一个 **点积**：  
+  $$
+  y_{ij} = \sum_{k=1}^{d} x_{ik} \cdot w_{kj}
+  $$
+- 每个 $y_{ij}$ 需要 $O(d)$ 次乘加运算  
+- 总共有 $b \times e$ 个元素，$O(b\cdot d \cdot e)$
+![w:900 center](../images/2025/l2/matmul_elem.png)
 
+---
+
+# 矩阵乘法的优化思路
+- 内存局部性 (Blocking)
+  - 数据按小块（tile）加载到cache中，避免反复访问大矩阵
+- 向量化计算 (Tiling)
+  - 一次处理多个数据 (SIMD/SIMT)，例如一次性做 8 个乘加
+- 并行化
+  - 多核CPU：不同线程处理不同矩阵块
+  - GPU：上万线程同时处理小块矩阵
+
+<!-- ---
+
+# GPU 上的矩阵乘法
+
+- GPU 将矩阵划分为很多小块（thread block）
+- 每个 block 在显存和共享内存之间做高速数据交换
+- CUDA 核函数中：
+  - 每个线程负责计算 $Y$ 中的一个或一小片元素
+  - 通过 warp/wavefront 协同提高吞吐 -->
+
+---
+
+# PyTorch手搓乘法
+
+承载数据的基本类型：Tensor。那什么是 Tensor？
+
+- Tensor可理解为多维数组
+- 在 PyTorch 中是最基础的数据结构  
+- 类似 NumPy 的 ndarray，但有两个关键特性：
+  - 支持在GPU上高效计算  
+  - 支持自动求导(autograd)
+
+---
+
+## Tensor 的维度
+
+- 标量 (Scalar)：0 维张量  
+- 向量 (Vector)：1 维张量
+- 矩阵 (Matrix)：2 维张量，常用与模型参数W
+- 高维 Tensor：常用于输入输出(Input/Output)/激活(Activation)
+
+```python
+  torch.tensor(3.14)   # shape = []
+  torch.tensor([1, 2, 3])   # shape = [3]
+  torch.tensor([[1, 2], [3, 4]])   # shape = [2, 2]
+  x = torch.randn(2, 3, 4, 5) # shape = [2, 3, 4, 5]
+  ```
+
+---
+
+# PyTorch手搓乘法
+
+- 操作数有了，那操作符呢？
+- 矩阵乘法 (Matrix multiplication)
+  - Operator @
+  - torch.matmul, tensor.matmul
+- 元素乘法 (element-wise multiplication)
+  - Operator \*
+  - torch.mul, tensor.mul
+- 高阶的: 
+  - torch.einsum
 
 ---
 
@@ -188,9 +257,52 @@ y = torch.mul(x, w)
 
 ---
 
-# 最基础/核心的"积木"
+# einsum
 
-线性层 (torch.nn.Linear): $y=xW^T+b$
+- torch.einsum (equation, tensor list)
+  - equation: 使用 **爱因斯坦求和约定 (Einstein Summation Convention)** 描述张量运算 (基于tensor下标)
+  - tensor list: input
+- 优点：直观，代码可读性强
+
+
+---
+
+# einsum 表达式
+矩阵乘法$Y = XW$的数学形式：  
+  $$
+  Y_{be} = \sum_{d} X_{bd} \cdot W_{de}
+  $$
+einsum 表达式
+  ```python
+  import torch
+
+  X = torch.randn(2, 3)   # B=2, D=3
+  W = torch.randn(3, 4)   # D=3, E=4
+  Y = torch.einsum("bd,de->be", X, W)
+  print(Y.shape)  # torch.Size([2, 4])
+```
+
+---
+
+# 批量矩阵乘
+- 数学形式：
+$$
+Y_{b i j} = \sum_{k} A_{b i k} \cdot B_{b k j}
+$$
+- einsum 表达式：
+```python
+A = torch.randn(10, 3, 4)   # batch=10
+B = torch.randn(10, 4, 5)
+
+Y = torch.einsum("bik,bkj->bij", A, B)
+print(Y.shape)  # torch.Size([10, 3, 5])
+```
+
+---
+
+# 构建最基础/核心的模型"积木"
+
+线性层 (torch.nn.Linear): $Y=XW$
 
 * torch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=None)
   * in_features: size of each input sample
@@ -200,8 +312,6 @@ y = torch.mul(x, w)
   * input: $(∗,H_{in})$
   * output: $(∗,H_{out})$
   
-![bg right:30% 80%](images/l2/one-layer.png)
-
 ---
 
 # "积木"nn.Linear的要素
@@ -213,7 +323,8 @@ self.out_features = out_features
 self.weight = Parameter(torch.empty((out_features, in_features), **factory_kwargs))
 ```
 * weight: W
-  * 规约了输入输出的尺寸
+  * 与in_features和out_features共同规约了输入输出部分维度的尺寸
+  * 实现了从一个空间到另一个空间的变换
   
 ---
 
@@ -225,7 +336,7 @@ def forward(self, input: Tensor) -> Tensor:
 ```
 
 * 计算方法forward: 定义输入到输出的计算过程
-  * nn.Linear的forward: 实现$y=xW^T+b$
+  * nn.Linear的forward: 实现$Y=XW$
 
 
 ---
@@ -252,11 +363,12 @@ y1 = m1(x)
 y2 = m2(y1)
 ```
 * 基于nn.Linear实现以下函数组合
-  * $y_1 = xW_1^T+b$且$y_2 = y_1W_2^T+b$
+  * $Y_1 = XW_1$
+  * $Y_2 = Y_1W_2$
   
 ---
 
-# 这样的输入行么？
+# 思考：这样的输入行么？
 
 ```python
 x = torch.randn(128, 4096, 30, 20)
@@ -269,111 +381,144 @@ y = m2(y)
 
 * 线性层(Linear layer), 卷积层(Convolutional layer), 池化层(Pooling layer), 各类正则化(XNorm layer)
 * 自定义layer
-  * Attention layer, Decoder Layer, ...
+  * Attention layer, Transformer Block, Decoder Layer, ...
 
 ---
 
-# 深度学习中的卷积
+# 反向传播：深度学习的关键
 
-传统卷积：信号系统中考虑之前时刻的信号经过一些过程后对现在时刻系统输出的影响。
-互相关 (cross-correlation)：深度学习领域的“卷积”，考虑两个函数之间基于空间位置的相关性
-![center](https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Comparison_convolution_correlation.svg/400px-Comparison_convolution_correlation.svg.png)
-
-
+* 前向传播：从输入到输出，计算预测结果
+* 反向传播：从输出到输入，计算梯度，更新参数
+* 核心思想：通过链式法则计算复合函数的导数
 
 ---
 
-## 深度学习卷积计算
-
-互相关函数$S$, $K$: Kernel, $I$: Input
-$S(i,j)=(K*I)(i,j)=\sum_m\sum_nI(i+m,j+n)K(m,n)$
-
-<p align="center">
-  <img width="250" height="300" src="images/l2/conv.gif">
-  <img width="400" height="300" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Comparison_convolution_correlation.svg/400px-Comparison_convolution_correlation.svg.png">
-</p>
-
-曾经的面试问题: 卷积计算输出的数值越大，表示什么含义？
-
----
-
-## 卷积示例
-![center](images/l2/conv2.gif)
-
----
-
-# 卷积层实现
-
-$\text{out}(N_i,C_{out_j})=\text{bias}(C_{out_j})+\sum_{k=0}^{C_{in}-1}\text{weight}(C_{out_j},k)⋆\text{input}(N_i,k)$
-$⋆$: 2D cross-correlation operator
-* torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
-  * input shape: $(N, C_{in}, H_{in}, W_{in})$
-  * output shape: $(N, C_{out}, H_{out}, W_{out})$
-
-* 编码时刻
-
----
-
-# 模型训练三要素
-
-* 模型结构(包括模型参数)
-  * 编码，构建模型
-    * 静态: 模型结构定义 (init function)
-    * 动态: 模型推理过程实现 (forward function)
-* 数据集
-  * Dataset和DataLoader
-* 优化器/训练算法
-  * Loss function，以及优化目标
-
----
-
-# 从积木拼接到构建模型
-
-无比经典的LeNet系列
-
-![center](images/l2/lenet.png)
-
-Channel: 通道/过滤器（卷积核）
-
----
-
-# 从积木拼接到构建模型
-
-![w:800 center](images/l2/vgg16.webp)
-
----
-
-# 从积木拼接到构建模型
-
-![w:800 center](images/l2/vgg.png)
-
----
-
-# 数据集
-
-* dataset
-  * 组织数据集
-  * 数据集关键要素
-    * 路径(path), 大小(size), 如何读取单个样本
-* dataloader
-  * 规定数据集的读取方式
+![w:1200 center](../images/2025/l2/forward_backward.png)
 
 
 ---
 
-# 优化过程
+# 为什么需要反向传播？
 
-* 优化器
-  * 优化目标: Loss function
-  * 优化算法: 梯度下降(GD)
-    * 随机梯度下降(SGD), ADAM
-* 算法
-  * train部分
-  * test部分
+* **目标**：找到使损失函数最小的参数
+* **方法**：梯度下降，需要计算损失函数对每个参数的梯度
+* **挑战**：深度学习模型是复合函数，直接计算梯度困难
+* **解决**：反向传播算法，高效计算所有参数的梯度
+
+---
+
+### 模型的训练/学习
+<!-- ![bg right:40% 100%](https://miro.medium.com/max/1024/1*G1v2WBigWmNzoMuKOYQV_g.png) -->
+
+* 假设，构建模型$f$，其参数为$\theta$
+* 目标: 设计一种可用来度量基于$\theta$的模型预测结果和真实结果差距的度量，差距越小，模型越接近需估计的函数$f^*$
+  * $J(\theta)=\frac{1}{n}\sum_{X\in \mathcal{X}}(f^*(X)-f(X;\theta))^2$
+* 学习方法：梯度下降，寻找合适的$\theta$ (被称之**训练模型**)
+<div style="display:contents;" data-marpit-fragment>
+
+![w:400 center](../images/2025/l2/grad.png)
+</div>
 
 
 ---
 
-# Talk is cheap. Show me the code.
+# 模型的训练/学习 
 
-使用MNIST/CIFAR-10/fashionMNIST数据集，训练图像分类模型
+* 目标: $J(\theta)=\frac{1}{n}\sum_{X\in \mathcal{X}}(Y-f(X;\theta))^2$
+
+<div style="display:contents;" data-marpit-fragment>
+
+1. 猜个$\theta$, 根据输入$X$，计算$\hat{Y}=f(X;\theta)$
+2. 评估误差: $Y$和$\hat{Y}$的误差(loss)
+3. 根据误差，更新$\theta$: $\theta=\theta -\lambda\cdot\Delta\theta$
+
+![w:400 center](../images/2025/l2/grad.png)
+</div>
+
+---
+
+![bg 80%](https://shashank-ojha.github.io/ParallelGradientDescent/non-convex.png)
+
+
+---
+
+# 训练模型(搜索/开发参数)
+
+优化目标: $J(\theta)=\frac{1}{n}\sum_{X\in \mathcal{X}}(f^*(X)-f(X;\theta))^2$
+
+梯度下降法 (Gradient descent): 求偏导
+* $f^*(X)$通常以真值(groundtruth)体现，因此$\frac{\partial}{\partial \theta}J(\theta)$重点关注$f(X;\theta)$
+  * $f(X)=XW$ --> $\frac{\partial}{\partial \theta}f(X)=\frac{\partial}{\partial \theta}(XW)$ 
+  * 通常深度学习模型$f(X)$为复合函数，需利用链式法则求偏导
+
+* 核心算法: 反向传播(backpropagation)
+  * 核心步骤: 针对优化目标$J(\theta)$求其偏导数(partial derivative)
+
+
+---
+
+# 反向传播(backpropagation)
+
+* 假设深度学习模型为$f(X)=XW$的复合函数
+  * $y=f_3(f_2(f_1(X)))$
+* 优化目标$J(\theta)$的偏导$\frac{\partial}{\partial \theta}J$的核心为$\frac{\partial}{\partial \theta}y=\frac{\partial}{\partial \theta}f_3(f_2(f_1(X)))$
+* 链式法则展开:
+  * $\frac{\partial J}{\partial \theta_{f_1}} = \frac{\partial J}{\partial y}\cdot \frac{\partial y}{\partial f_3}\cdot \frac{\partial f_3}{\partial f_2}\cdot \frac{\partial f_2}{\partial f_1} \cdot \frac{\partial f_1}{\partial \theta_{f_1}}$
+
+* 偏导的构建
+  * 传统手工实现 v.s. 基于计算图的autograd
+
+---
+
+# 计算图：模型计算的DAG图
+
+* **节点**：表示变量（输入、参数、中间结果）
+* **边**：表示操作（加法、乘法、激活函数等）
+* **前向传播**：沿着边的方向计算
+* **反向传播**：沿着边的反方向计算梯度
+
+![w:800 center](https://docs.pytorch.org/tutorials/_images/comp-graph.png)
+
+---
+
+# 举个例子：线性层的反向传播
+
+线性层：$z = x \cdot w + b$
+损失函数: $loss = \text{CrossEntropy}(z, target)$
+**前向传播**：
+- 输入：$x$, 参数：$w$, $b$
+- 输出：$z = x \cdot w + b$
+**反向传播**（链式法则）：
+- $\frac{\partial loss}{\partial w} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial w} = \frac{\partial loss}{\partial z} \cdot x$
+- $\frac{\partial loss}{\partial b} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial b} = \frac{\partial loss}{\partial z} \cdot 1 = \frac{\partial loss}{\partial z}$
+- $\frac{\partial loss}{\partial x} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial x} = \frac{\partial loss}{\partial z} \cdot w$
+
+其中 $\frac{\partial loss}{\partial z}$ 是损失函数对输出的梯度，由损失函数的具体形式决定。
+
+---
+
+# 自动求导：PyTorch的核心特性
+
+* **计算图**：PyTorch自动构建计算图
+  * 基于`nn.Module`以及用户实现的`forward`方法
+* **梯度追踪**：在PyTorch中，Tensor对象设置`requires_grad=True`即可启用对该Tensor的梯度计算
+* **反向传播**：`backward()` 自动计算梯度
+
+---
+
+# 梯度清零：训练循环中的重要步骤
+
+```python
+optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
+
+for epoch in range(100):
+    # 前向传播
+    y = net(x)
+    loss = criterion(y, target)
+    
+    # 反向传播
+    optimizer.zero_grad()  # 清零梯度
+    loss.backward()        # 计算梯度
+    optimizer.step()       # 更新参数
+```
+

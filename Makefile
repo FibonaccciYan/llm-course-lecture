@@ -1,8 +1,9 @@
 MARP := marp
 PREFIX := docs
 
-OBJECTS := $(PREFIX)/index.html 
-OBJECTS := $(PREFIX)/2025/lecture1.html 
+OBJECTS += $(PREFIX)/index.html 
+OBJECTS += $(PREFIX)/2025/lecture1.html 
+OBJECTS += $(PREFIX)/2025/lecture2.html 
 # OBJECTS += $(PREFIX)/lecture1.html 
 # OBJECTS += $(PREFIX)/lecture2.html 
 # OBJECTS += $(PREFIX)/lecture3.html
