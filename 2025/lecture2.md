@@ -487,11 +487,11 @@ y = m2(y)
 损失函数: $loss = \text{CrossEntropy}(z, target)$
 **前向传播**：
 - 输入：$x$, 参数：$w$, $b$
-- 输出：$z = x \cdot w + b$
+- 输出：$z = x \cdot w + b$, 输出的grad: $\frac{\partial loss}{\partial z}$
 **反向传播**（链式法则）：
-- $\frac{\partial loss}{\partial w} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial w} = \frac{\partial loss}{\partial z} \cdot x$
+- $\frac{\partial loss}{\partial w} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial w} = x \cdot \frac{\partial loss}{\partial z}$
 - $\frac{\partial loss}{\partial b} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial b} = \frac{\partial loss}{\partial z} \cdot 1 = \frac{\partial loss}{\partial z}$
-- $\frac{\partial loss}{\partial x} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial x} = \frac{\partial loss}{\partial z} \cdot w$
+- $\frac{\partial loss}{\partial x} = \frac{\partial loss}{\partial z} \cdot \frac{\partial z}{\partial x} = \frac{\partial loss}{\partial z} \cdot w^{\top}$
 
 其中 $\frac{\partial loss}{\partial z}$ 是损失函数对输出的梯度，由损失函数的具体形式决定。
 
