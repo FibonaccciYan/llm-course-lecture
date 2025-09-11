@@ -29,6 +29,7 @@
 
 - **课程主页**：[https://njudeepengine.github.io/llm-course-lecture/](https://njudeepengine.github.io/llm-course-lecture/)
 - **作业主页**：[https://njudeepengine.github.io/LLM-Blog/](https://njudeepengine.github.io/LLM-Blog/)
+- **B站课程视频**： [第1讲](https://www.bilibili.com/video/BV12RemzSEfV)、[第3讲](https://www.bilibili.com/video/BV1EJH9zRE2p)
 - **QQ群**：1033682290 (NJU内部)
 
 ## 📖 课程大纲
@@ -36,11 +37,15 @@
 ### 2025年课程内容
 
 1. **课程简介** - 课程概述和学习路径  
-   链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture1.html
+   讲义链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture1.html
+
+   B站链接: https://www.bilibili.com/video/BV12RemzSEfV
 2. **特征空间的变换1** - 前反向运行视角理解深度学习模型  
-   链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture2.html
+   讲义链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture2.html
 3. **特征空间的变换2** - 前反向运行视角理解深度学习模型  
-   链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture3.html
+   讲义链接: https://njudeepengine.github.io/llm-course-lecture/2025/lecture3.html
+   
+   B站链接: https://www.bilibili.com/video/BV1EJH9zRE2p
 
 
 ### 2024年课程内容
