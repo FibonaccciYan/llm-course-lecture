@@ -286,10 +286,66 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 ```
 
 * 使用方法
-  * tokenizer(input)
-  * tokenizer.tokenize(input)
-  * tokenizer.encode(input)
-  * tokenizer.decode(input)
+  * `tokenizer(input)` - 完整编码，返回字典
+  * `tokenizer.tokenize(input)` - 只分词，返回字符串列表
+  * `tokenizer.encode(input)` - 编码为ID，可选择特殊符号
+  * `tokenizer.decode(input)` - 解码ID为文本
+
+## Tokenizer方法详解
+
+### 1. tokenize() - 分词方法
+```python
+text = "南京大学是一所优秀的大学"
+tokens = tokenizer.tokenize(text)
+print(tokens)  # ['南', '京', '大', '学', '是', '一', '所', '优', '秀', '的', '大', '学']
+```
+- 只做分词，不添加特殊符号
+- 返回字符串token列表
+- 用于查看分词效果
+
+### 2. encode() - 编码方法
+```python
+# 不添加特殊符号
+ids = tokenizer.encode(text, add_special_tokens=False)
+print(ids)  # [59563, 47653, 102667, ...]
+
+# 添加特殊符号（默认）
+ids_with_special = tokenizer.encode(text, add_special_tokens=True)
+print(ids_with_special)  # [128000, 59563, 47653, ..., 128001]
+```
+- 将文本转换为token ID
+- `add_special_tokens=True`：添加BOS/EOS等特殊符号
+- 返回整数列表
+
+### 3. tokenizer() - 完整编码方法
+```python
+encoded = tokenizer(text)
+print(encoded)
+# {'input_ids': [128000, 59563, 47653, 102667, 128001], 
+#  'attention_mask': [1, 1, 1, 1, 1]}
+```
+- 返回包含`input_ids`和`attention_mask`的字典
+- 支持批量处理、padding、truncation等参数
+- 最常用的方法
+
+### 4. decode() - 解码方法
+```python
+decoded = tokenizer.decode(encoded['input_ids'])
+print(decoded)  # "南京大学是一所优秀的大学"
+
+# 跳过特殊符号
+decoded_clean = tokenizer.decode(encoded['input_ids'], skip_special_tokens=True)
+print(decoded_clean)  # "南京大学是一所优秀的大学"
+```
+- 将token ID转换回文本
+- `skip_special_tokens=True`：去除特殊符号
+
+### 5. 批量处理
+```python
+texts = ["你好", "南京大学", "人工智能"]
+batch_encoded = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
+print(batch_encoded['input_ids'].shape)  # torch.Size([3, max_length])
+```
 
 
 ---
