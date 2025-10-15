@@ -30,3 +30,4 @@ marp: true
   4. [ 大语言模型解析 I: Input/Positional Embedding](2025/lecture4.html)
   5. [ 大语言模型解析 II: RMSNorm/FFN](2025/lecture5.html)
   6. [ 大语言模型解析 III: Attention Mechanism I](2025/lecture6.html)
+  7. [ 大语言模型解析 IV: Attention Mechanism II](2025/lecture7.html)
