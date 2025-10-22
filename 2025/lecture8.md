@@ -415,6 +415,12 @@ class LinearWithLoRA(nn.Module):
 
 ---
 
+## 混合精度示意
+
+![w:1000 center](../images/2025/l8/mixed_precision.png) 
+
+---
+
 ## 量化的核心思路
 
 * 把浮点权重与激活压缩到较小的整数范围（如 INT8/INT4），降低显存与带宽占用
@@ -423,6 +429,13 @@ class LinearWithLoRA(nn.Module):
   * x_q: 量化后数值
   * scale: 缩放因子，fp32
   * zero_point：零点，表示在浮点数域中值为 0 时，对应的 int8 整数值。
+
+---
+
+## 量化示意
+
+![w:1000 center](https://developer.nvidia.cn/zh-cn/blog/wp-content/uploads/2025/08/Quantized-Precision-1.gif)
+
 <!-- * 位宽越低误差越大，可配合蒸馏、RPTQ 等手段补偿
 * 整数矩阵乘法在 GPU/ASIC 上通常吞吐更高、能耗更低 -->
 
