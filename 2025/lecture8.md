@@ -345,7 +345,6 @@ class LinearWithLoRA(nn.Module):
     def forward(self, x):
         return self.linear(x) + self.lora(x)
 ```
-移步notebook
 
 
 ---
